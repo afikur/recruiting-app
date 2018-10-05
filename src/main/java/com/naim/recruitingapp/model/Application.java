@@ -1,9 +1,6 @@
 package com.naim.recruitingapp.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Application {
@@ -23,6 +20,7 @@ public class Application {
 
     private Status status;
 
+    @ManyToOne
     private Offer offer;
 
     public Long getId() {

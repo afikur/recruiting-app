@@ -1,10 +1,6 @@
 package com.naim.recruitingapp.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Column;
+import javax.persistence.*;
 
 import java.util.List;
 import java.util.Date;
@@ -20,6 +16,7 @@ public class Offer {
 
     private Date startDate;
 
+    @OneToMany(cascade=CascadeType.ALL)
     private List<Application> applications;
 
     public Long getId() {
