@@ -1,11 +1,14 @@
 package com.naim.recruitingapp.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
 import java.util.List;
 import java.util.Date;
 
 @Entity
+@Data
 public class Offer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,38 +19,14 @@ public class Offer {
 
     private Date startDate;
 
-    @OneToMany(cascade=CascadeType.ALL)
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "offer")
     private List<Application> applications;
 
-    public Long getId() {
-        return id;
-    }
+    @Transient
+    private Integer numberOfApplications;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public List<Application> getApplications() {
-        return applications;
-    }
-
-    public void setApplications(List<Application> applications) {
-        this.applications = applications;
+    @PostLoad
+    public void setNumberOfApplications() {
+        this.numberOfApplications = applications.size();
     }
 }
