@@ -32,6 +32,19 @@ public class ApplicationController {
         this.offerRepository = offerRepository;
     }
 
+    @GetMapping(value = "/offers/{offerId}/applications/{applicationId}", produces = "application/hal+json")
+    public ResponseEntity<Resources<ApplicationResource>>
+        findByIdAndOfferId(@PathVariable final Long offerId,
+                           @PathVariable final Long applicationId) throws OfferNotFoundException {
+        final List<ApplicationResource> applications = applicationRepository.findByIdAndOffer_Id(applicationId, offerId)
+                .stream().map(ApplicationResource::new).collect(Collectors.toList());
+
+        final Resources<ApplicationResource> resources = new Resources<>(applications);
+        final String uriString = ServletUriComponentsBuilder.fromCurrentRequest().build().toUriString();
+        resources.add(new Link(uriString, "self"));
+        return ResponseEntity.ok(resources);
+    }
+
     @GetMapping(value = "/offers/{offerId}/applications", produces = "application/hal+json")
     public ResponseEntity<Resources<ApplicationResource>> all(@PathVariable final Long offerId) throws OfferNotFoundException {
         final List<ApplicationResource> collection = getApplicationForOffer(offerId);

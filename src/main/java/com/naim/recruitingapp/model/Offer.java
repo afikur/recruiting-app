@@ -14,12 +14,12 @@ public class Offer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(unique=true)
+    @Column(unique = true)
     private String title;
 
     private Date startDate;
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy = "offer")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "offer")
     private List<Application> applications;
 
     @Transient
